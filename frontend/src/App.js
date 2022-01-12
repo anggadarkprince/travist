@@ -10,8 +10,13 @@ import {format} from "timeago.js"
 import Constants from "./Constants";
 
 function App() {
+    const currentUser = "ari.wijaya"
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
+    const [newPlace, setNewPlace] = useState(null)
+    const [title, setTitle] = useState(null)
+    const [description, setDescription] = useState(null)
+    const [rating, setRating] = useState(0)
     const [viewport, setViewport] = useState({
         width: "100vw",
         height: "100vh",
@@ -32,8 +37,41 @@ function App() {
         getPins()
     }, [])
 
-    const handleMarkerClick = (id) => {
+    const handleMarkerClick = (id, lat, lng) => {
         setCurrentPlaceId(id)
+        setNewPlace(null)
+        setViewport({...viewport, latitude: lat, longitude: lng})
+    }
+
+    const handleAddPlace = (e) => {
+        setCurrentPlaceId(null)
+
+        const [lng, lat] = e.lngLat
+        setNewPlace({
+            lat: lat,
+            lng: lng
+        })
+    }
+
+    const handleSubmitNewPlace = async (e) => {
+        e.preventDefault()
+
+        const newPin = {
+            username: currentUser,
+            title: title,
+            description: description,
+            rating: rating,
+            lat: newPlace.lat,
+            lng: newPlace.lng
+        }
+
+        try {
+            const res = await axios.post(Constants.baseUrl + '/pins', newPin)
+            setPins([...pins, res.data])
+            setNewPlace(null)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -43,13 +81,20 @@ function App() {
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 onViewportChange={nextViewport => setViewport(nextViewport)}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+                onDblClick={handleAddPlace}
+                doubleClickZoom={false}
+                transitionDuration={200}
             >
                 {
                     pins.map(pin => (
                         <React.Fragment key={pin._id}>
-                            <Marker latitude={pin.lat} longitude={pin.lng} offsetLeft={0} offsetTop={-10}>
-                                <RoomIcon style={{fontSize: viewport.zoom * 4, color: "slateblue", cursor: "pointer"}}
-                                    onClick={() => handleMarkerClick(pin._id)}/>
+                            <Marker latitude={pin.lat} longitude={pin.lng} offsetLeft={-viewport.zoom * 2} offsetTop={-viewport.zoom * 4}>
+                                <RoomIcon style={{
+                                    fontSize: viewport.zoom * 4,
+                                    color: pin.username === currentUser ? "tomato" : "slateblue",
+                                    cursor: "pointer"
+                                }}
+                                          onClick={() => handleMarkerClick(pin._id, pin.lat, pin.lng)}/>
                             </Marker>
                             {
                                 pin._id === currentPlaceId &&
@@ -58,8 +103,8 @@ function App() {
                                     longitude={pin.lng}
                                     closeButton={true}
                                     closeOnClick={false}
-                                    offsetLeft={30}
-                                    offsetTop={5}
+                                    offsetLeft={10}
+                                    offsetTop={-32}
                                     onClose={() => setCurrentPlaceId(null)}
                                     anchor="left">
                                     <div className="card">
@@ -74,11 +119,8 @@ function App() {
                                         <div className="info-section">
                                             <label>Rating</label>
                                             <div className="stars">
-                                                <StarIcon className="star"/>
-                                                <StarIcon className="star"/>
-                                                <StarIcon className="star"/>
-                                                <StarIcon className="star"/>
-                                                <StarIcon className="star"/>
+                                                {Array(pin.rating).fill(<StarIcon className="star"/>)}
+                                                {Array(5 - pin.rating).fill(<StarIcon className="star-empty"/>)}
                                             </div>
                                         </div>
                                         <div className="info-section">
@@ -92,7 +134,58 @@ function App() {
                         </React.Fragment>
                     ))
                 }
-
+                {
+                    newPlace &&
+                    <Popup
+                        latitude={newPlace.lat}
+                        longitude={newPlace.lng}
+                        closeButton={true}
+                        closeOnClick={false}
+                        offsetLeft={30}
+                        offsetTop={5}
+                        onClose={() => setNewPlace(null)}
+                        anchor="left">
+                        <div>
+                            <form onSubmit={handleSubmitNewPlace}>
+                                <div className="input-section">
+                                    <label htmlFor="title">Title</label>
+                                    <input type="text" name="title" id="title" required
+                                        placeholder="Put location title"
+                                        onChange={(e) => setTitle(e.target.value)}/>
+                                </div>
+                                <div className="input-section">
+                                    <label htmlFor="description">Review</label>
+                                    <textarea name="description" id="description" rows="2" required
+                                              placeholder="Tell something about this place"
+                                              onChange={(e) => setDescription(e.target.value)}/>
+                                </div>
+                                <div className="input-section">
+                                    <label htmlFor="rating">Rating</label>
+                                    <select name="rating" id="rating" required
+                                            onChange={(e) => setRating(parseInt(e.target.value))}>
+                                        <option value="">Pick a rating</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                                <button type="submit" className="submitButton">Add Pin</button>
+                            </form>
+                        </div>
+                    </Popup>
+                }
+                {
+                    currentUser ? (
+                        <button className="button logout">Logout</button>
+                    ) : (
+                        <div className="button">
+                            <button className="button login">Login</button>
+                            <button className="button register">Register</button>
+                        </div>
+                    )
+                }
             </ReactMapGL>
         </div>
     );

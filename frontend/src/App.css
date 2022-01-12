@@ -46,6 +46,10 @@ label {
   color: gold;
 }
 
+.star-empty {
+  color: #dedede;
+}
+
 .username {
   font-size: 14px;
 }
@@ -64,8 +68,13 @@ form {
   color: rgb(88, 87, 87);
 }
 
+.input-section {
+  margin-bottom: 10px;
+}
+
 input {
   border: none;
+  width: 100%;
   border-bottom: 1px solid gray;
 }
 
@@ -81,8 +90,16 @@ select:focus {
   outline: none;
 }
 
+select {
+  width: 100%;
+  background-color: white;
+  border: 1px solid gray;
+  padding: 2px 5px;
+}
+
 textarea {
   border: none;
+  width: 100%;
   border-bottom: 1px solid gray;
 }
 
@@ -104,7 +121,7 @@ textarea {
 
 .button {
   border: none;
-  padding: 5px;
+  padding: 5px 10px;
   border-radius: 5px;
   color: white;
   font-weight: 500;
