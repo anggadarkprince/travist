@@ -9,9 +9,11 @@ import axios from "axios";
 import {format} from "timeago.js"
 import Constants from "./Constants";
 import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 
 function App() {
-    const [currentUser, setCurrentUser] = useState(null)
+    const myStorage = window.localStorage;
+    const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"));
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
@@ -27,6 +29,7 @@ function App() {
     });
 
     const [showRegister, setShowRegister] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
 
     useEffect(() => {
         const getPins = async () => {
@@ -70,7 +73,7 @@ function App() {
         e.preventDefault()
 
         const newPin = {
-            username: currentUser,
+            username: currentUsername,
             title: title,
             description: description,
             rating: rating,
@@ -86,6 +89,11 @@ function App() {
             console.log(err)
         }
     }
+
+    const handleLogout = () => {
+        setCurrentUsername(null);
+        myStorage.removeItem("user");
+    };
 
     return (
         <div>
@@ -104,7 +112,7 @@ function App() {
                             <Marker latitude={pin.lat} longitude={pin.lng} offsetLeft={-viewport.zoom * 2} offsetTop={-viewport.zoom * 4}>
                                 <RoomIcon style={{
                                     fontSize: viewport.zoom * 4,
-                                    color: pin.username === currentUser ? "tomato" : "slateblue",
+                                    color: pin.username === currentUsername ? "tomato" : "slateblue",
                                     cursor: "pointer"
                                 }}
                                           onClick={() => handleMarkerClick(pin._id, pin.lat, pin.lng)}/>
@@ -190,17 +198,18 @@ function App() {
                     </Popup>
                 }
                 {
-                    currentUser ? (
-                        <button className="button logout">Logout</button>
-                    ) : (
-                        <div className="buttons">
-                            <button className="button login">Login</button>
-                            <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
-                        </div>
-                    )
+                    currentUsername
+                        ? <button className="button logout" onClick={handleLogout}>Logout</button>
+                        : (
+                            <div className="buttons">
+                                <button className="button login" onClick={() => setShowLogin(true)}>Login</button>
+                                <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
+                            </div>
+                        )
                 }
 
                 {showRegister && <Register setShowRegister={setShowRegister} />}
+                {showLogin && <Login setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />}
             </ReactMapGL>
         </div>
     );
