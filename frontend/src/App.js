@@ -8,9 +8,10 @@ import StarIcon from '@mui/icons-material/Star';
 import axios from "axios";
 import {format} from "timeago.js"
 import Constants from "./Constants";
+import Register from "./components/Register/Register";
 
 function App() {
-    const currentUser = "ari.wijaya"
+    const [currentUser, setCurrentUser] = useState(null)
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
@@ -25,6 +26,8 @@ function App() {
         zoom: 12
     });
 
+    const [showRegister, setShowRegister] = useState(false);
+
     useEffect(() => {
         const getPins = async () => {
             try {
@@ -38,19 +41,29 @@ function App() {
     }, [])
 
     const handleMarkerClick = (id, lat, lng) => {
-        setCurrentPlaceId(id)
-        setNewPlace(null)
-        setViewport({...viewport, latitude: lat, longitude: lng})
+        if (!showRegister) {
+            setCurrentPlaceId(id)
+            setNewPlace(null)
+            setViewport({...viewport, latitude: lat, longitude: lng})
+        } else {
+            setCurrentPlaceId(null)
+            setNewPlace(null)
+        }
     }
 
     const handleAddPlace = (e) => {
-        setCurrentPlaceId(null)
+        if (!showRegister) {
+            setCurrentPlaceId(null)
 
-        const [lng, lat] = e.lngLat
-        setNewPlace({
-            lat: lat,
-            lng: lng
-        })
+            const [lng, lat] = e.lngLat
+            setNewPlace({
+                lat: lat,
+                lng: lng
+            })
+        } else {
+            setCurrentPlaceId(null)
+            setNewPlace(null)
+        }
     }
 
     const handleSubmitNewPlace = async (e) => {
@@ -97,7 +110,7 @@ function App() {
                                           onClick={() => handleMarkerClick(pin._id, pin.lat, pin.lng)}/>
                             </Marker>
                             {
-                                pin._id === currentPlaceId &&
+                                pin._id === currentPlaceId && !showRegister &&
                                 <Popup
                                     latitude={pin.lat}
                                     longitude={pin.lng}
@@ -135,7 +148,7 @@ function App() {
                     ))
                 }
                 {
-                    newPlace &&
+                    newPlace && !showRegister &&
                     <Popup
                         latitude={newPlace.lat}
                         longitude={newPlace.lng}
@@ -155,7 +168,7 @@ function App() {
                                 </div>
                                 <div className="input-section">
                                     <label htmlFor="description">Review</label>
-                                    <textarea name="description" id="description" rows="2" required
+                                    <textarea name="description" id="description" rows="1" required
                                               placeholder="Tell something about this place"
                                               onChange={(e) => setDescription(e.target.value)}/>
                                 </div>
@@ -180,12 +193,14 @@ function App() {
                     currentUser ? (
                         <button className="button logout">Logout</button>
                     ) : (
-                        <div className="button">
+                        <div className="buttons">
                             <button className="button login">Login</button>
-                            <button className="button register">Register</button>
+                            <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
                         </div>
                     )
                 }
+
+                {showRegister && <Register setShowRegister={setShowRegister} />}
             </ReactMapGL>
         </div>
     );

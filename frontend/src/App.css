@@ -76,6 +76,7 @@ input {
   border: none;
   width: 100%;
   border-bottom: 1px solid gray;
+  padding: 3px 5px;
 }
 
 input::placeholder,
@@ -101,6 +102,7 @@ textarea {
   border: none;
   width: 100%;
   border-bottom: 1px solid gray;
+  padding: 3px 5px;
 }
 
 .submitButton {
@@ -115,8 +117,8 @@ textarea {
 .buttons,
 .logout {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
 }
 
 .button {
