@@ -10,6 +10,7 @@ import {format} from "timeago.js"
 import Constants from "./Constants";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import {Header} from "./components/Header/Header";
 
 function App() {
     const myStorage = window.localStorage;
@@ -97,6 +98,7 @@ function App() {
 
     return (
         <div>
+            <Header/>
             <ReactMapGL
                 {...viewport}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -197,7 +199,7 @@ function App() {
                         </div>
                     </Popup>
                 }
-                {
+                {/*
                     currentUsername
                         ? <button className="button logout" onClick={handleLogout}>Logout</button>
                         : (
@@ -206,7 +208,7 @@ function App() {
                                 <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
                             </div>
                         )
-                }
+                */}
 
                 {showRegister && <Register setShowRegister={setShowRegister} />}
                 {showLogin && <Login setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />}
