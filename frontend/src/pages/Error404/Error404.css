@@ -1,0 +1,46 @@
+.errorPage {
+    padding: 30px 40px;
+    text-align: center;
+}
+
+.errorPage .errorIcon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #f10d4e;
+}
+
+.errorPage .errorCode {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.errorPage .errorTitle {
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.errorPage .errorSubTitle {
+    margin-bottom: 20px;
+    color: #8d8d8d;
+}
+
+.errorButton {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: white;
+    background-color: #4d3cb8;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10),
+    0 2px 2px rgba(0, 0, 0, 0.10),
+    0 4px 4px rgba(0, 0, 0, 0.08),
+    0 8px 8px rgba(0, 0, 0, 0.06);
+}
+
+.errorButton:hover {
+    background-color: #4635ae;
+}

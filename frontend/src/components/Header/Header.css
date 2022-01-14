@@ -1,0 +1,103 @@
+.headerWrapper {
+    width: 100%;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 65%);
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px 50px;
+}
+
+.headerLogo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+}
+
+.headerLogo .headerLogoIcon {
+    font-size: 30px !important;
+    color: #4d3cb8 !important;
+}
+
+.headerLogo .headerLogoText {
+    font-size: 26px;
+}
+
+.headerLogo .headerLogoSubText {
+    font-size: 14px;
+    font-weight: 400;
+    color: #8d8d8d;
+    margin-left: 5px;
+}
+
+.headerNav {
+    list-style: none;
+    display: flex;
+    align-items: stretch;
+}
+
+.headerNav .headerNavItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.headerNav .headerNavSeparator {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 5px;
+}
+
+.headerNav .headerNavText {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    color: #8d8d8d;
+}
+
+.headerNavLink {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.headerNavLink svg {
+    margin-right: 3px;
+    font-size: 20px !important;
+}
+
+.headerNavLink svg.headerNavLinkIconRight {
+    margin-left: 3px;
+    margin-right: 0;
+}
+
+.headerNavLink.active {
+    color: #4d3cb8;
+    border-bottom: 2px solid #4d3cb8;
+}
+
+.headerNavLink:hover {
+    color: #5c49d4;
+}
+
+.headerNavLinkButton {
+    background-color: #5c49d4;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 12px;
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10),
+    0 2px 2px rgba(0, 0, 0, 0.10),
+    0 4px 4px rgba(0, 0, 0, 0.08),
+    0 8px 8px rgba(0, 0, 0, 0.06);
+}
+
+.headerNavLinkButton:hover {
+    background-color: #4d3cb8;
+    color: white;
+}
