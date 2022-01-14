@@ -3,7 +3,6 @@ import './Register.css'
 import RoomIcon from '@mui/icons-material/Room';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
-import Constants from "../../Constants";
 
 export default function Register({ setShowRegister }) {
     const [success, setSuccess] = useState(false);
@@ -24,7 +23,7 @@ export default function Register({ setShowRegister }) {
         setSuccess(false);
 
         try {
-            await axios.post(Constants.baseUrl + "/users/register", newUser);
+            await axios.post("users/register", newUser);
             setError(false);
             setSuccess(true);
 

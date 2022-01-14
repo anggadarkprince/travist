@@ -3,7 +3,6 @@ import React, {useRef, useState} from "react";
 import "./Login.css";
 import RoomIcon from "@mui/icons-material/Room";
 import CloseIcon from "@mui/icons-material/Close";
-import Constants from "../../Constants";
 
 export default function Login({setShowLogin, setCurrentUsername, myStorage}) {
     const [error, setError] = useState(false);
@@ -17,7 +16,7 @@ export default function Login({setShowLogin, setCurrentUsername, myStorage}) {
             password: passwordRef.current.value,
         };
         try {
-            const res = await axios.post(Constants.baseUrl + "/users/login", user);
+            const res = await axios.post("users/login", user);
             setCurrentUsername(res.data.username);
             myStorage.setItem('user', res.data.username)
             setShowLogin(false)

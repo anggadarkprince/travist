@@ -7,7 +7,6 @@ import RoomIcon from '@mui/icons-material/Room';
 import StarIcon from '@mui/icons-material/Star';
 import axios from "axios";
 import {format} from "timeago.js"
-import Constants from "./Constants";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import {Header} from "./components/Header/Header";
@@ -35,7 +34,7 @@ function App() {
     useEffect(() => {
         const getPins = async () => {
             try {
-                const res = await axios.get(Constants.baseUrl + "/pins")
+                const res = await axios.get("pins")
                 setPins(res.data)
             } catch (err) {
                 console.log(err)
@@ -83,7 +82,7 @@ function App() {
         }
 
         try {
-            const res = await axios.post(Constants.baseUrl + '/pins', newPin)
+            const res = await axios.post('pins', newPin)
             setPins([...pins, res.data])
             setNewPlace(null)
         } catch (err) {

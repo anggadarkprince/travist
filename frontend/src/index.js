@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+import Constants from "./Constants";
+
+axios.defaults.baseURL = Constants.baseUrl;
 
 ReactDOM.render(
   <React.StrictMode>
