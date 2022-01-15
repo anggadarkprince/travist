@@ -1,6 +1,5 @@
 import * as React from "react";
 import "./Header.css";
-import RoomIcon from "@mui/icons-material/Room";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
@@ -8,17 +7,14 @@ import LoginIcon from "@mui/icons-material/Login";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import {NavLink} from "react-router-dom";
 import {useLocation} from "react-router-dom";
+import Logo from "../Logo/Logo";
 
 export function Header() {
     const location = useLocation();
 
     return (
         <header className="headerWrapper">
-            <div className="headerLogo">
-                <RoomIcon className="headerLogoIcon"/>
-                <h1 className="headerLogoText">Travist</h1>
-                <p className="headerLogoSubText">• Your simple advisor</p>
-            </div>
+            <Logo/>
             <nav>
                 <ul className="headerNav">
                     <li className="headerNavItem">
