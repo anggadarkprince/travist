@@ -58,6 +58,7 @@
 .aboutColumns {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 50px;
 }
 
 .aboutColumns > .aboutColumn30 {
@@ -88,12 +89,14 @@
 
 .aboutSection .aboutSectionListItem {
     padding: 5px 20px;
+    margin-bottom: 10px;
 }
 
 .aboutSection .aboutSectionCardTitle {
     position: relative;
     cursor: pointer;
     font-size: 18px;
+    font-weight: 600;
 }
 
 .aboutSection .aboutSectionCardTitle:before {
@@ -110,6 +113,14 @@
 .aboutSection .aboutSectionCardDescription {
     font-size: 14px;
     color: #8d8d8d;
+}
+
+.aboutSection .aboutSectionCardTitle + .aboutSectionCardDescription {
+    display: none;
+}
+
+.aboutSection .aboutSectionListItem.active .aboutSectionCardDescription {
+    display: block;
 }
 
 .aboutSection .aboutSectionCardTitle:hover,

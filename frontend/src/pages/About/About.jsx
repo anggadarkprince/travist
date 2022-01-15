@@ -3,8 +3,47 @@ import "./About.css";
 import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined';
 import Logo from "../../components/Logo/Logo";
 import {Footer} from "../../components/Footer/Footer";
+import CollapseSection from "../../components/CollapseSection/CollapseSection";
 
-export default function Explore() {
+export default function About() {
+    const discoverLists = [
+        {
+            title: "Explore your world",
+            content: "With the redesigned Explore tab, find places to eat and things to do around you or when you travel"
+        },
+        {
+            title: "See places you match with",
+            content: "The Your Match score shows you how well a place matches your tastes and preferences",
+        },
+        {
+            title: "Just for you",
+            content: "See recommendations for new and trending places based on your interests",
+        },
+        {
+            title: "Create pins",
+            content: "Easily create lists of places you want to go. You can keep these lists private, or share them with friends. You can also browse through lists created by publishers",
+        },
+    ];
+
+    const connectionLists = [
+        {
+            title: "Follow your favorites",
+            content: "Stay on top of offers, updates and more when you follow your favorite businesses",
+        },
+        {
+            title: "Explore your friend pins",
+            content: "See the way you need to go with arrows and directions placed right on top of your world",
+        },
+        {
+            title: "Get information about location",
+            content: "Message a business right on Google Maps to find out information",
+        },
+        {
+            title: "Explore new places confidently",
+            content: "See the way you need to go with arrows and directions placed right on top of your world. There’s less second guessing and missing turns",
+        },
+    ]
+
     return (
         <div className="pageContainer">
             <div className="aboutPage">
@@ -17,28 +56,7 @@ export default function Explore() {
                 <div className="aboutColumns">
                     <div className="aboutSection aboutColumn30">
                         <h3 className="aboutSectionTitle">Discover new experiences across the world or around the corner</h3>
-                        <ul className="aboutSectionList">
-                            <li className="aboutSectionListItem active">
-                                <h4 className="aboutSectionCardTitle">Explore your world</h4>
-                                <p className="aboutSectionCardDescription">With the redesigned Explore tab, find places to eat and things to do around you or when you travel</p>
-                            </li>
-                            <li className="aboutSectionListItem">
-                                <h4 className="aboutSectionCardTitle">See places you match with</h4>
-                                <p className="aboutSectionCardDescription">The Your Match score shows you how well a place matches your tastes and preferences</p>
-                            </li>
-                            <li className="aboutSectionListItem">
-                                <h4 className="aboutSectionCardTitle">Just for you</h4>
-                                <p className="aboutSectionCardDescription">See recommendations for new and trending places based on your interests</p>
-                            </li>
-                            <li className="aboutSectionListItem">
-                                <h4 className="aboutSectionCardTitle">Create pins</h4>
-                                <p className="aboutSectionCardDescription">
-                                    Easily create lists of places you want to go, and add notes to the places you’ve saved.
-                                    You can keep these lists private, share them with close friends, or share them publicly.
-                                    You can also browse through lists created by publishers
-                                </p>
-                            </li>
-                        </ul>
+                        <CollapseSection lists={discoverLists} initialActive={0} interval={5}/>
                     </div>
                     <div className="aboutColumn70" style={{alignItems: "end", justifyContent: "center"}}>
                         <img src="https://wallpapercave.com/wp/wp1933849.jpg" className="aboutCardBanner" style={{width: "80%"}} alt="People"/>
@@ -51,20 +69,7 @@ export default function Explore() {
                     </div>
                     <div className="aboutSection aboutColumn30">
                         <h3 className="aboutSectionTitle">Make your plans happen by connecting with the places you’re interested in</h3>
-                        <ul className="aboutSectionList">
-                            <li className="aboutSectionListItem active">
-                                <h4 className="aboutSectionCardTitle">Follow your favorites</h4>
-                                <p className="aboutSectionCardDescription">Stay on top of offers, updates and more when you follow your favorite businesses</p>
-                            </li>
-                            <li className="aboutSectionListItem">
-                                <h4 className="aboutSectionCardTitle">Explore your friend pins</h4>
-                                <p className="aboutSectionCardDescription">See the way you need to go with arrows and directions placed right on top of your world</p>
-                            </li>
-                            <li className="aboutSectionListItem">
-                                <h4 className="aboutSectionCardTitle">Get information about location</h4>
-                                <p className="aboutSectionCardDescription">Message a business right on Google Maps to find out information</p>
-                            </li>
-                        </ul>
+                        <CollapseSection lists={connectionLists} initialActive={0} interval={3}/>
                     </div>
                 </div>
 
