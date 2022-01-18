@@ -1,6 +1,6 @@
 import './App.css';
 import * as React from 'react';
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import {Header} from "./components/Header/Header";
 import Explore from "./pages/Explore/Explore";
 import About from "./pages/About/About";
@@ -17,6 +17,7 @@ function App() {
     const [fadeMode, setFadeMode] = useState(true)
     const [showRegister, setShowRegister] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const navigate = useNavigate();
 
     const onAuthMenuClicked = (menu, url) => {
         switch (menu) {
@@ -35,13 +36,23 @@ function App() {
         }
     }
 
+    const handleLogout = (e) => {
+        e.preventDefault()
+        setCurrentUsername(null);
+        myStorage.removeItem("user");
+        navigate('/explore');
+    };
+
     return (
         <div>
-            <Header fadeMode={fadeMode} onAuthMenuClicked={onAuthMenuClicked}/>
+            <Header fadeMode={fadeMode}
+                    currentUsername={currentUsername}
+                    onAuthMenuClicked={onAuthMenuClicked}
+                    handleLogout={handleLogout}/>
             <div className="pageWrapper">
                 <Routes>
                     <Route path={'/'} element={<Explore setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/explore'} element={<Explore setHeaderFade={setFadeMode.bind(this)}/>}/>
+                    <Route path={'/explore'} element={<Explore setHeaderFade={setFadeMode.bind(this)} username={myStorage.getItem("user")}/>}/>
                     <Route path={'/nearby'} element={<Nearby setHeaderFade={setFadeMode.bind(this)}/>}/>
                     <Route path={'/about'} element={<About setHeaderFade={setFadeMode.bind(this)}/>}/>
                     <Route path={'/legals/*'} element={<Legals setHeaderFade={setFadeMode.bind(this)}/>}/>

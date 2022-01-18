@@ -4,13 +4,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import RoomIcon from "@mui/icons-material/Room";
 import StarIcon from "@mui/icons-material/Star";
 import {format} from "timeago.js";
-import Register from "../../components/Register/Register";
-import Login from "../../components/Login/Login";
 import axios from "axios";
 
 export default function Explore(props) {
     const myStorage = window.localStorage;
-    const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"));
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
@@ -24,9 +21,6 @@ export default function Explore(props) {
         longitude: 112.7521,
         zoom: 12
     });
-
-    const [showRegister, setShowRegister] = useState(false);
-    const [showLogin, setShowLogin] = useState(false);
 
     useEffect(() => {
         props.setHeaderFade(true)
@@ -42,36 +36,26 @@ export default function Explore(props) {
     }, [])
 
     const handleMarkerClick = (id, lat, lng) => {
-        if (!showRegister) {
-            setCurrentPlaceId(id)
-            setNewPlace(null)
-            setViewport({...viewport, latitude: lat, longitude: lng})
-        } else {
-            setCurrentPlaceId(null)
-            setNewPlace(null)
-        }
+        setCurrentPlaceId(id)
+        setNewPlace(null)
+        setViewport({...viewport, latitude: lat, longitude: lng})
     }
 
     const handleAddPlace = (e) => {
-        if (!showRegister) {
-            setCurrentPlaceId(null)
+        setCurrentPlaceId(null)
 
-            const [lng, lat] = e.lngLat
-            setNewPlace({
-                lat: lat,
-                lng: lng
-            })
-        } else {
-            setCurrentPlaceId(null)
-            setNewPlace(null)
-        }
+        const [lng, lat] = e.lngLat
+        setNewPlace({
+            lat: lat,
+            lng: lng
+        })
     }
 
     const handleSubmitNewPlace = async (e) => {
         e.preventDefault()
 
         const newPin = {
-            username: currentUsername,
+            username: props.username,
             title: title,
             description: description,
             rating: rating,
@@ -87,11 +71,6 @@ export default function Explore(props) {
             console.log(err)
         }
     }
-
-    const handleLogout = () => {
-        setCurrentUsername(null);
-        myStorage.removeItem("user");
-    };
 
     return (
         <ReactMapGL
@@ -109,13 +88,13 @@ export default function Explore(props) {
                         <Marker latitude={pin.lat} longitude={pin.lng} offsetLeft={-viewport.zoom * 2} offsetTop={-viewport.zoom * 4}>
                             <RoomIcon style={{
                                 fontSize: viewport.zoom * 4,
-                                color: pin.username === currentUsername ? "tomato" : "slateblue",
+                                color: pin.username === props.username ? "tomato" : "slateblue",
                                 cursor: "pointer"
                             }}
                                       onClick={() => handleMarkerClick(pin._id, pin.lat, pin.lng)}/>
                         </Marker>
                         {
-                            pin._id === currentPlaceId && !showRegister &&
+                            pin._id === currentPlaceId &&
                             <Popup
                                 latitude={pin.lat}
                                 longitude={pin.lng}
@@ -153,7 +132,7 @@ export default function Explore(props) {
                 ))
             }
             {
-                newPlace && !showRegister &&
+                newPlace &&
                 <Popup
                     latitude={newPlace.lat}
                     longitude={newPlace.lng}
@@ -194,19 +173,6 @@ export default function Explore(props) {
                     </div>
                 </Popup>
             }
-            {/*
-                    currentUsername
-                        ? <button className="button logout" onClick={handleLogout}>Logout</button>
-                        : (
-                            <div className="buttons">
-                                <button className="button login" onClick={() => setShowLogin(true)}>Login</button>
-                                <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
-                            </div>
-                        )
-                */}
-
-            {showRegister && <Register setShowRegister={setShowRegister} />}
-            {showLogin && <Login setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />}
         </ReactMapGL>
     )
 }

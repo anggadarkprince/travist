@@ -7,17 +7,20 @@ import {Link} from "react-router-dom";
 
 export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCurrentUsername, myStorage}) {
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [redirect, setRedirect] = useState(false);
     const usernameRef = useRef();
     const passwordRef = useRef();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = {
-            username: usernameRef.current.value,
-            password: passwordRef.current.value,
-        };
+
+        setError(false)
         try {
-            const res = await axios.post("users/login", user);
+            const res = await axios.post("users/login", {
+                username: usernameRef.current.value,
+                password: passwordRef.current.value,
+            });
             setCurrentUsername(res.data.username);
             myStorage.setItem('user', res.data.username)
 
@@ -27,6 +30,7 @@ export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCu
             passwordRef.current.value = ''
         } catch (err) {
             setError(true)
+            setErrorMessage(err.response.data.message || 'Something went wrong!')
         }
     };
 
@@ -45,7 +49,7 @@ export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCu
                 <p className="authLogoSubtitle">Login into your account</p>
             </div>
             <form onSubmit={handleSubmit}>
-                {error && <span className="flash-message failure">Something went wrong!</span>}
+                {error && <span className="flash-message failure">{errorMessage || 'Something went wrong!'}</span>}
                 <div className="input-section">
                     <label htmlFor="loginUsername">Username</label>
                     <input autoFocus placeholder="Username" id="loginUsername" ref={usernameRef}/>
