@@ -3,7 +3,9 @@ import "./Error404.css";
 import WrongLocationOutlinedIcon from '@mui/icons-material/WrongLocationOutlined';
 import {Link} from "react-router-dom";
 
-export default function Error404() {
+export default function Error404(props) {
+    props.setHeaderFade(false)
+
     return (
         <div className="pageContainer">
             <div className="errorPage">

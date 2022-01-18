@@ -5,13 +5,13 @@ import Cookie from "./Cookie";
 import Terms from "./Terms";
 import "./Legals.css"
 
-export default function Legals() {
-
+export default function Legals(props) {
+    props.setHeaderFade(false)
     return (
         <div className="pageContainer">
             <Routes>
-                <Route path={'cookie'} element={<Cookie/>} />
                 <Route path={'terms'} element={<Terms/>} />
+                <Route path={'cookie'} element={<Cookie/>} />
             </Routes>
             <Footer/>
         </div>

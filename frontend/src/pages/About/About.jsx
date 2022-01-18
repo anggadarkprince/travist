@@ -5,7 +5,9 @@ import Logo from "../../components/Logo/Logo";
 import {Footer} from "../../components/Footer/Footer";
 import CollapseSection from "../../components/CollapseSection/CollapseSection";
 
-export default function About() {
+export default function About(props) {
+    props.setHeaderFade(false)
+
     const discoverLists = [
         {
             title: "Explore your world",

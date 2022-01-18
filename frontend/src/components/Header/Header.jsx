@@ -9,11 +9,11 @@ import {NavLink} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import Logo from "../Logo/Logo";
 
-export function Header() {
+export function Header({fadeMode}) {
     const location = useLocation();
 
     return (
-        <header className="headerWrapper">
+        <header className={`headerWrapper${fadeMode ? ' headerFade' : ''}`}>
             <Logo/>
             <nav>
                 <ul className="headerNav">

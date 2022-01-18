@@ -8,7 +8,7 @@ import Register from "../../components/Register/Register";
 import Login from "../../components/Login/Login";
 import axios from "axios";
 
-export default function Explore() {
+export default function Explore(props) {
     const myStorage = window.localStorage;
     const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"));
     const [pins, setPins] = useState([])
@@ -24,6 +24,7 @@ export default function Explore() {
         longitude: 112.7521,
         zoom: 12
     });
+    props.setHeaderFade(true)
 
     const [showRegister, setShowRegister] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
