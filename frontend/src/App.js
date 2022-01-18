@@ -6,6 +6,7 @@ import Explore from "./pages/Explore/Explore";
 import About from "./pages/About/About";
 import Nearby from "./pages/Nearby/Nearby";
 import Error404 from "./pages/Error404/Error404";
+import Legals from "./pages/Legals/Legals";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     <Route path={'/explore'} element={<Explore/>}/>
                     <Route path={'/nearby'} element={<Nearby/>}/>
                     <Route path={'/about'} element={<About/>}/>
+                    <Route path={'/legals/*'} element={<Legals/>}/>
                     <Route path="*" element={<Error404/>}
                     />
                 </Routes>

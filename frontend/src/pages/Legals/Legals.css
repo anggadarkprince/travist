@@ -1,0 +1,36 @@
+.legalPage {
+    padding: 30px 80px;
+}
+
+.legalPage p {
+    margin-bottom: 10px;
+}
+
+.legalTitleWrapper {
+    margin-bottom: 20px;
+}
+
+.legalTitle {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.legalSubtitle {
+    font-size: 16px;
+    color: #8d8d8d;
+}
+
+.legalSectionTitle {
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.legalList {
+    padding-left: 15px;
+}
+
+.legalList h4 {
+    font-weight: 500;
+}
