@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./About.css";
 import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined';
 import Logo from "../../components/Logo/Logo";
@@ -6,7 +6,10 @@ import {Footer} from "../../components/Footer/Footer";
 import CollapseSection from "../../components/CollapseSection/CollapseSection";
 
 export default function About(props) {
-    props.setHeaderFade(false)
+
+    useEffect(() => {
+        props.setHeaderFade(false)
+    }, [])
 
     const discoverLists = [
         {

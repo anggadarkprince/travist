@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Route, Routes} from "react-router-dom";
 import {Footer} from "../../components/Footer/Footer";
 import Cookie from "./Cookie";
@@ -6,7 +6,11 @@ import Terms from "./Terms";
 import "./Legals.css"
 
 export default function Legals(props) {
-    props.setHeaderFade(false)
+
+    useEffect(() => {
+        props.setHeaderFade(false)
+    }, [])
+
     return (
         <div className="pageContainer">
             <Routes>

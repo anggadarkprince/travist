@@ -1,7 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function Nearby(props) {
-    props.setHeaderFade(false)
+
+    useEffect(() => {
+        props.setHeaderFade(false)
+    }, [])
+
     return (
         <div className="pageContainer">
             <p>Nearby page</p>

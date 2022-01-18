@@ -8,13 +8,36 @@ import Nearby from "./pages/Nearby/Nearby";
 import Error404 from "./pages/Error404/Error404";
 import Legals from "./pages/Legals/Legals";
 import {useState} from "react";
+import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 
 function App() {
+    const myStorage = window.localStorage;
+    const [currentUsername, setCurrentUsername] = useState(myStorage.getItem("user"));
     const [fadeMode, setFadeMode] = useState(true)
+    const [showRegister, setShowRegister] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+
+    const onAuthMenuClicked = (menu, url) => {
+        switch (menu) {
+            case 'register':
+                setShowRegister(true)
+                setShowLogin(false)
+                break;
+            case 'login':
+                setShowRegister(false)
+                setShowLogin(true)
+                break;
+            default:
+                setShowRegister(false)
+                setShowLogin(false)
+                break;
+        }
+    }
 
     return (
         <div>
-            <Header fadeMode={fadeMode}/>
+            <Header fadeMode={fadeMode} onAuthMenuClicked={onAuthMenuClicked}/>
             <div className="pageWrapper">
                 <Routes>
                     <Route path={'/'} element={<Explore setHeaderFade={setFadeMode.bind(this)}/>}/>
@@ -25,6 +48,8 @@ function App() {
                     <Route path="*" element={<Error404 setHeaderFade={setFadeMode.bind(this)}/>}/>
                 </Routes>
             </div>
+            <Register onAuthMenuClicked={onAuthMenuClicked} showRegister={showRegister} setShowRegister={setShowRegister} />
+            <Login onAuthMenuClicked={onAuthMenuClicked} showLogin={showLogin} setShowLogin={setShowLogin} setCurrentUsername={setCurrentUsername} myStorage={myStorage} />
         </div>
     );
 }

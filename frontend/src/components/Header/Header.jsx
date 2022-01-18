@@ -9,8 +9,13 @@ import {NavLink} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import Logo from "../Logo/Logo";
 
-export function Header({fadeMode}) {
+export function Header({fadeMode, onAuthMenuClicked}) {
     const location = useLocation();
+
+    const onAuthClick = (e, menu) => {
+        e.preventDefault()
+        onAuthMenuClicked(menu, e.target.href)
+    }
 
     return (
         <header className={`headerWrapper${fadeMode ? ' headerFade' : ''}`}>
@@ -36,13 +41,13 @@ export function Header({fadeMode}) {
                     </li>
                     <li className="headerNavItem headerNavSeparator"/>
                     <li className="headerNavItem">
-                        <NavLink to="/login" className="headerNavLink">
+                        <NavLink to="/login" className="headerNavLink" onClick={(e) => onAuthClick(e, 'login')}>
                             Sign In <LoginIcon className="headerNavLinkIconRight"/>
                         </NavLink>
                     </li>
                     <li className="headerNavItem headerNavText">or</li>
                     <li className="headerNavItem">
-                        <NavLink to="/register" className="headerNavLink headerNavLinkButton">
+                        <NavLink to="/register" className="headerNavLink headerNavLinkButton" onClick={(e) => onAuthClick(e, 'register')}>
                             Register <AccountCircleOutlinedIcon className="headerNavLinkIconRight"/>
                         </NavLink>
                     </li>

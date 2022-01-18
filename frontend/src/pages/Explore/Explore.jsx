@@ -24,12 +24,12 @@ export default function Explore(props) {
         longitude: 112.7521,
         zoom: 12
     });
-    props.setHeaderFade(true)
 
     const [showRegister, setShowRegister] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
 
     useEffect(() => {
+        props.setHeaderFade(true)
         const getPins = async () => {
             try {
                 const res = await axios.get("pins")
@@ -164,7 +164,7 @@ export default function Explore(props) {
                     onClose={() => setNewPlace(null)}
                     anchor="left">
                     <div>
-                        <form onSubmit={handleSubmitNewPlace}>
+                        <form className="formPin" onSubmit={handleSubmitNewPlace}>
                             <div className="input-section">
                                 <label htmlFor="title">Title</label>
                                 <input type="text" name="title" id="title" required

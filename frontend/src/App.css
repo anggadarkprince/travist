@@ -25,11 +25,15 @@
 
 label {
     width: max-content;
-    color: tomato;
     font-size: 13px;
-    border-bottom: 1px solid tomato;
-    margin: 3px 0;
+    margin-bottom: 3px;
     display: block;
+    font-weight: 500;
+}
+
+.formPin label {
+    color: tomato;
+    border-bottom: 1px solid tomato;
 }
 
 .description {
@@ -59,30 +63,38 @@ label {
     color: gray;
 }
 
-form {
+/*form {
     width: 250px;
     height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: rgb(88, 87, 87);
-}
+}*/
 
 .input-section {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 input {
     border: none;
     width: 100%;
     border-bottom: 1px solid gray;
-    padding: 3px 5px;
+    padding: 5px;
+}
+
+.input-section:focus-within input {
+    border-bottom: 1px solid #4d3cb8;
+}
+
+.input-section:focus-within label {
+    color: #4d3cb8;
 }
 
 input::placeholder,
 textarea::placeholder {
-    font-size: 12px;
-    color: rgb(185, 184, 184);
+    font-size: 13px;
+    color: rgb(176, 176, 176);
 }
 
 input:focus,

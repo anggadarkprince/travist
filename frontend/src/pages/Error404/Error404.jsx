@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Error404.css";
 import WrongLocationOutlinedIcon from '@mui/icons-material/WrongLocationOutlined';
 import {Link} from "react-router-dom";
 
 export default function Error404(props) {
-    props.setHeaderFade(false)
+
+    useEffect(() => {
+        props.setHeaderFade(false)
+    }, [])
 
     return (
         <div className="pageContainer">

@@ -2,9 +2,10 @@ import axios from "axios";
 import React, {useRef, useState} from "react";
 import "./Login.css";
 import RoomIcon from "@mui/icons-material/Room";
-import CloseIcon from "@mui/icons-material/Close";
+import {Modal} from "../Modal/Modal";
+import {Link} from "react-router-dom";
 
-export default function Login({setShowLogin, setCurrentUsername, myStorage}) {
+export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCurrentUsername, myStorage}) {
     const [error, setError] = useState(false);
     const usernameRef = useRef();
     const passwordRef = useRef();
@@ -19,7 +20,8 @@ export default function Login({setShowLogin, setCurrentUsername, myStorage}) {
             const res = await axios.post("users/login", user);
             setCurrentUsername(res.data.username);
             myStorage.setItem('user', res.data.username)
-            setShowLogin(false)
+
+            onAuthMenuClicked('explore', '/explore')
 
             usernameRef.current.value = ''
             passwordRef.current.value = ''
@@ -28,30 +30,37 @@ export default function Login({setShowLogin, setCurrentUsername, myStorage}) {
         }
     };
 
+    const onAuthClick = (e, menu) => {
+        e.preventDefault()
+        onAuthMenuClicked(menu, e.target.href)
+    }
+
     return (
-        <div className="loginOverlay">
-            <div className="loginContainer">
-                <div className="logo">
-                    <RoomIcon className="logoIcon"/>
+        <Modal show={showLogin} onCloseCallback={() => setShowLogin(false)} modalStyle={{maxWidth: '320px'}}>
+            <div className="authLogoWrapper">
+                <div className="authLogo">
+                    <RoomIcon />
                     <span>Travist</span>
                 </div>
-                <form onSubmit={handleSubmit}>
-                    {error && <span className="flash-message failure">Something went wrong!</span>}
-                    <div className="input-section">
-                        <input autoFocus placeholder="Username" ref={usernameRef}/>
-                    </div>
-                    <div className="input-section">
-                        <input type="password" min="6" placeholder="Password" ref={passwordRef}/>
-                    </div>
-                    <button className="loginBtn" type="submit">
-                        Login
-                    </button>
-                </form>
-                <CloseIcon
-                    className="loginCancel"
-                    onClick={() => setShowLogin(false)}
-                />
+                <p className="authLogoSubtitle">Login into your account</p>
             </div>
-        </div>
+            <form onSubmit={handleSubmit}>
+                {error && <span className="flash-message failure">Something went wrong!</span>}
+                <div className="input-section">
+                    <label htmlFor="loginUsername">Username</label>
+                    <input autoFocus placeholder="Username" id="loginUsername" ref={usernameRef}/>
+                </div>
+                <div className="input-section">
+                    <label htmlFor="password">Password</label>
+                    <input type="password" min="6" placeholder="Password" id="loginPassword" ref={passwordRef}/>
+                </div>
+                <button className="loginBtn" type="submit">
+                    Login
+                </button>
+                <p className="authFooter">
+                    Don't have an account, <Link to="/register" onClick={(e) => onAuthClick(e, 'register')}>register here</Link>
+                </p>
+            </form>
+        </Modal>
     );
 }
