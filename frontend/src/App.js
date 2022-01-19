@@ -10,6 +10,7 @@ import Legals from "./pages/Legals/Legals";
 import {useState} from "react";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import Account from "./pages/Account/Account";
 
 function App() {
     const myStorage = window.localStorage;
@@ -56,6 +57,7 @@ function App() {
                     <Route path={'/nearby'} element={<Nearby setHeaderFade={setFadeMode.bind(this)}/>}/>
                     <Route path={'/about'} element={<About setHeaderFade={setFadeMode.bind(this)}/>}/>
                     <Route path={'/legals/*'} element={<Legals setHeaderFade={setFadeMode.bind(this)}/>}/>
+                    <Route path={'/account'} element={<Account setHeaderFade={setFadeMode.bind(this)}/>}/>
                     <Route path="*" element={<Error404 setHeaderFade={setFadeMode.bind(this)}/>}/>
                 </Routes>
             </div>

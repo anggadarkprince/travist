@@ -12,7 +12,7 @@ export default function Terms() {
     }, [])
 
     return (
-        <article className="legalPage">
+        <article className="container">
             <div className="legalTitleWrapper">
                 <h3 className="legalTitle">Terms & Conditions</h3>
                 <p className="legalSubtitle">Last updated 20 February 2022</p>

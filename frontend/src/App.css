@@ -7,6 +7,33 @@
     right: 3px !important;
 }
 
+.pageTitleLarge {
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.pageTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.pageSubtitle {
+    font-size: 15px;
+    color: #b0b0b0;
+    line-height: 1.2;
+}
+
+.pageTitle + :not(.pageSubtitle) {
+    margin-top: 10px;
+}
+
+.textViolet {
+    color: #4d3cb8;
+}
+
 .card {
     width: 250px;
     height: 250px;
@@ -71,6 +98,16 @@ label {
     justify-content: space-between;
     color: rgb(88, 87, 87);
 }*/
+
+.formSection {
+    margin-bottom: 15px;
+}
+
+.formSectionTitle {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: 500;
+}
 
 .input-section {
     margin-bottom: 15px;
@@ -161,6 +198,7 @@ textarea {
 
 .pageContainer {
     margin-top: 65px;
+    padding: 25px 0;
 }
 
 hr {
@@ -171,4 +209,103 @@ hr {
     opacity: .25;
     overflow: hidden;
     border-top: 1px solid rgba(0,0,0,.15);
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.row > .column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+}
+
+.row > [class^='column'], .row > div[class*=' column'] {
+    padding: 0 15px;
+    flex: 0 0 auto;
+}
+
+.row > .column25 {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+}
+
+.row > .column30 {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+}
+
+.row > .column50 {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 50%;
+}
+
+.row > .column70 {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 70%;
+}
+
+.mbTiny {
+    margin-bottom: 5px;
+}
+
+.mbSmall {
+    margin-bottom: 10px;
+}
+
+.mbMedium {
+    margin-bottom: 20px;
+}
+
+.mbLarge {
+    margin-bottom: 30px;
+}
+
+.mbExtraLarge {
+    margin-bottom: 50px;
+}
+
+.button {
+    border-radius: 5px;
+    padding: 8px 12px;
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10),
+    0 2px 2px rgba(0, 0, 0, 0.10),
+    0 4px 4px rgba(0, 0, 0, 0.08),
+    0 8px 8px rgba(0, 0, 0, 0.06);
+}
+
+.button.buttonViolet {
+    background-color: #5c49d4;
+    color: white;
+}
+
+.button.buttonViolet:hover {
+    background-color: #4d3cb8;
+    color: white;
+}
+
+.button.buttonOrange {
+    background-color: tomato;
+    color: white;
+}
+
+.button.buttonOrange:hover {
+    background-color: #f1573c;
+    color: white;
 }

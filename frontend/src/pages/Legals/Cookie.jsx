@@ -12,7 +12,7 @@ export default function Cookie() {
     }, [])
 
     return (
-        <article className="legalPage">
+        <article className="container">
             <div className="legalTitleWrapper">
                 <h3 className="legalTitle">Cookie</h3>
                 <p className="legalSubtitle">Last updated 20 February 2022</p>
