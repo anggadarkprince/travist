@@ -11,13 +11,13 @@ export default function Legals(props) {
         props.setHeaderFade(false)
     }, [])
 
-    return (
+    return <>
         <div className="pageContainer">
             <Routes>
                 <Route path={'terms'} element={<Terms/>} />
                 <Route path={'cookie'} element={<Cookie/>} />
             </Routes>
-            <Footer/>
         </div>
-    )
+        <Footer/>
+    </>
 }

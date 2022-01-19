@@ -49,7 +49,7 @@ export default function About(props) {
         },
     ]
 
-    return (
+    return <>
         <div className="pageContainer">
             <div className="aboutPage">
                 <div className="aboutMainTitleWrapper">
@@ -92,7 +92,7 @@ export default function About(props) {
                     </p>
                 </div>
             </div>
-            <Footer/>
         </div>
-    )
+        <Footer/>
+    </>
 }

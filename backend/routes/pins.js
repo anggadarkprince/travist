@@ -1,7 +1,8 @@
 const router = require("express").Router()
 const Pin = require("../models/Pin")
+const auth = require("../middlewares/auth");
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     const newPin = new Pin(req.body)
     try {
         const savedPin = await newPin.save()

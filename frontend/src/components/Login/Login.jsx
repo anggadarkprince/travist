@@ -21,8 +21,8 @@ export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCu
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             });
-            setCurrentUsername(res.data.username);
-            myStorage.setItem('user', res.data.username)
+            setCurrentUsername(res.data.user.username);
+            myStorage.setItem('user', res.data.user.username)
 
             onAuthMenuClicked('explore', '/explore')
 

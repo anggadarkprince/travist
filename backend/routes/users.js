@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const auth = require("../middlewares/auth");
 
 router.post("/register", async (req, res) => {
     try {
@@ -43,10 +45,19 @@ router.post("/login", async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            _id: user._id,
+        const accessToken = jwt.sign({
+            id: user._id,
             username: user.username,
             email: user.email
+        }, process.env.JWT_SECRET)
+
+        res.status(200).json({
+            accessToken: accessToken,
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            }
         });
     } catch (err) {
         res.status(500).json({
@@ -54,6 +65,13 @@ router.post("/login", async (req, res) => {
             error: err.message
         });
     }
+});
+
+let refreshTokens = [];
+router.post("/logout", auth, async (req, res) => {
+    const refreshToken = req.body.token;
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+    res.status(200).json("You logged out successfully.");
 });
 
 module.exports = router;
