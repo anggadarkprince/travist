@@ -18,7 +18,7 @@ export default function Account(props) {
                 <h1 className="pageTitleLarge">My Account</h1>
                 <div className="row mbLarge">
                     <div className="column30">
-                        <h3 className="pageTitle">Profile <ArrowForwardOutlinedIcon/></h3>
+                        <h3 className="pageTitle">Profile <ArrowForwardOutlinedIcon className="textOrange"/></h3>
                         <p className="pageSubtitle">Basic information</p>
                     </div>
                     <div className="column70">
@@ -73,7 +73,7 @@ export default function Account(props) {
                 </div>
                 <div className="row mbLarge">
                     <div className="column30">
-                        <h3 className="pageTitle">Password <ArrowForwardOutlinedIcon/></h3>
+                        <h3 className="pageTitle">Password <ArrowForwardOutlinedIcon className="textOrange"/></h3>
                         <p className="pageSubtitle">Change your password</p>
                     </div>
                     <div className="column70">

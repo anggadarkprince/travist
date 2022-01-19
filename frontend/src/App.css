@@ -18,6 +18,13 @@
 .pageTitle {
     font-size: 20px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.pageTitle svg {
+    font-size: 20px;
+    margin-left: 5px;
 }
 
 .pageSubtitle {
@@ -32,6 +39,10 @@
 
 .textViolet {
     color: #4d3cb8;
+}
+
+.textOrange {
+    color: tomato;
 }
 
 .card {
