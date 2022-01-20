@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     const accessToken = req.cookies?.accessToken || (authHeader && authHeader.split(" ")[1]);
 
     if (accessToken) {
-        jwt.verify(accessToken, process.env.JWT_SECRET, async (err, user) => {
+        jwt.verify(accessToken, process.env.JWT_SECRET, async (err, userPayload) => {
             if (err) {
                 if (err instanceof TokenExpiredError) {
                     return res.status(401).send({message: "Token is expired"});
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
 
             try {
                 req.accessToken = accessToken;
-                const user = await User.findById(user._id);
+                const user = await User.findById(userPayload._id);
                 if (user) {
                     req.user = user;
                     next();
@@ -25,7 +25,10 @@ module.exports = (req, res, next) => {
                     return res.status(403).json({message: "User is invalid"});
                 }
             } catch (err) {
-                return res.status(500).json({message: "Something went wrong"});
+                return res.status(500).json({
+                    error: err.message,
+                    message: "Something went wrong"
+                });
             }
         });
     } else {
