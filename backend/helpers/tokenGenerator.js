@@ -5,7 +5,7 @@ module.exports = {
     generateAccessToken: (user) => {
         const payload = {_id: user._id, username: user.username, email: user.email}
         return jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "300s",
+            expiresIn: "3600s",
         });
     },
     generateRefreshToken: (user) => {

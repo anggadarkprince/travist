@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const PinSchema = new mongoose.Schema({
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
         username: {
             type: String,
             required: true,
@@ -33,5 +38,6 @@ const PinSchema = new mongoose.Schema({
     },
     {timestamps: true}
 );
+const Pin = mongoose.model("Pin", PinSchema)
 
-module.exports = mongoose.model("Pin", PinSchema);
+module.exports = Pin

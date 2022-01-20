@@ -1,24 +1,14 @@
-const router = require("express").Router()
-const Pin = require("../models/Pin")
+const express = require("express")
+const router = express.Router()
+
 const auth = require("../middlewares/auth");
+const pinController = require("../controllers/pin")
 
-router.post("/", auth, async (req, res) => {
-    const newPin = new Pin(req.body)
-    try {
-        const savedPin = await newPin.save()
-        res.status(200).json(savedPin)
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
-
-router.get("/", async (req, res) => {
-    try {
-        const pins = await Pin.find();
-        res.status(200).json(pins);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
+router.get("/", pinController.getAllPins);
+router.get("/my-pins", auth, pinController.getMyPins)
+router.post("/", auth, pinController.savePin)
+router.get("/:pinId", auth, pinController.getPin)
+router.put("/:pinId", auth, pinController.updatePin)
+router.delete("/:pinId", auth, pinController.deletePin)
 
 module.exports = router;
