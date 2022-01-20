@@ -1,19 +1,29 @@
 const jwt = require("jsonwebtoken");
+const TokenExpiredError = require("jsonwebtoken/lib/TokenExpiredError");
+const User = require("../models/User");
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
-    if (authHeader) {
-        const token = authHeader.split(" ")[1];
+    const accessToken = req.cookies?.accessToken || (authHeader && authHeader.split(" ")[1]);
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (accessToken) {
+        jwt.verify(accessToken, process.env.JWT_SECRET, (err, user) => {
             if (err) {
-                return res.status(403).json("Token is not valid!");
+                if (err instanceof TokenExpiredError) {
+                    return res.status(401).send({message: "Token is expired"});
+                }
+                return res.status(403).json({message: "Token is invalid"});
             }
 
-            req.user = user;
-            next();
+            try {
+                req.accessToken = accessToken;
+                req.user = User.findById(user.userId);
+                next();
+            } catch (err) {
+                return res.status(500).json({message: "Something went wrong"});
+            }
         });
     } else {
-        res.status(401).json("You are not authenticated!");
+        res.status(401).json({message: "You are not authenticated"});
     }
 };
