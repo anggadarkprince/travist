@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     const accessToken = req.cookies?.accessToken || (authHeader && authHeader.split(" ")[1]);
 
     if (accessToken) {
-        jwt.verify(accessToken, process.env.JWT_SECRET, (err, user) => {
+        jwt.verify(accessToken, process.env.JWT_SECRET, async (err, user) => {
             if (err) {
                 if (err instanceof TokenExpiredError) {
                     return res.status(401).send({message: "Token is expired"});
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
 
             try {
                 req.accessToken = accessToken;
-                req.user = User.findById(user.userId);
+                req.user = await User.findById(user.userId);
                 next();
             } catch (err) {
                 return res.status(500).json({message: "Something went wrong"});
