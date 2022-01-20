@@ -3,13 +3,46 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 const app = express()
 const cors = require('cors')
-const cookieParser = require('cookie-parser');
-const createError = require('http-errors');
+const cookieParser = require('cookie-parser')
+const createError = require('http-errors')
+const errorhandler = require('errorhandler')
+const morgan = require('morgan')
+const winston = require('winston')
+const fs = require('fs')
+const path = require('path')
 
 dotenv.config()
 app.use(express.json())
 app.use(cors())
-app.use(cookieParser());
+app.use(cookieParser())
+
+app.use(morgan('dev', {
+    skip: function (req, res) {
+        return res.statusCode < 400
+    }
+}))
+app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'logs/access.log'), {flags: 'a'})
+}))
+
+const isDev = process.env.NODE_ENV === 'development';
+if (isDev) {
+    app.use(errorhandler());
+}
+
+const loggerWinston = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({filename: 'logs/error.log', level: 'error'}),
+        new winston.transports.File({filename: 'logs/all.log'}),
+    ],
+});
+if (process.env.NODE_ENV !== 'production') {
+    loggerWinston.add(new winston.transports.Console({
+        format: winston.format.simple(),
+    }));
+}
 
 mongoose.connect(process.env.MONGOO_URL, {useNewUrlParser: true}, function (error) {
     if (error) {

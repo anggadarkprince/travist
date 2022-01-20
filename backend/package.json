@@ -4,13 +4,16 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "errorhandler": "^1.5.1",
     "express": "^4.17.2",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongoose": "^6.1.6",
-    "nodemon": "^2.0.15"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
+    "winston": "^3.4.0"
   },
   "name": "backend",
   "version": "1.0.0",
