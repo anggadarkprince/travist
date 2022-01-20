@@ -2,6 +2,7 @@ const User = require("../models/User");
 const UserToken = require("../models/UserToken");
 const bcrypt = require("bcrypt");
 const moment = require('moment');
+const jwt = require("jsonwebtoken");
 const {isEmailAddress} = require("../helpers/emailCheck");
 const {generateRefreshToken, generateAccessToken} = require("../helpers/tokenGenerator");
 
@@ -99,13 +100,57 @@ module.exports = {
             });
         }
     },
+    refreshToken: async (req, res) => {
+        const refreshToken = req.body.refreshToken || req.cookies?.refreshToken;
+        const userToken = await UserToken.findOne({refreshToken: refreshToken})
+        if (!userToken) {
+            return res.status(403).json({message: "Invalid refresh token"});
+        }
+
+        jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, payload) => {
+            err && res.status(500).json({message: "Failed to verify token"});
+
+            await UserToken.deleteOne({refreshToken: refreshToken});
+
+            const user = req.user
+            const newAccessToken = generateAccessToken(user);
+            const newRefreshToken = generateRefreshToken(user);
+            const accessTokenValidUntil = moment().add(2, 'hours')
+            const refreshTokenValidUntil = moment().add(30, 'days')
+
+            const newUserToken = new UserToken({
+                userId: user._id,
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+                validUntil: refreshTokenValidUntil,
+            });
+            const userToken = await newUserToken.save();
+
+            // send token cookie header
+            res.cookie('accessToken', userToken.accessToken, {
+                expires: accessTokenValidUntil.toDate(),
+                secure: false,
+                httpOnly: true,
+            });
+            res.cookie('refreshToken', userToken.refreshToken, {
+                expires: refreshTokenValidUntil.toDate(),
+                secure: false,
+                httpOnly: true,
+            });
+
+            res.status(200).json({
+                accessToken: userToken.accessToken,
+                refreshToken: userToken.refreshToken,
+            });
+        });
+    },
     logout: async (req, res) => {
         const accessToken = req.accessToken;
         try {
-            await UserToken.deleteOne({ accessToken: accessToken });
+            await UserToken.deleteOne({accessToken: accessToken});
 
-            res.clearCookie('accessToken', { path: '/' })
-            res.clearCookie('refreshToken', { path: '/' })
+            res.clearCookie('accessToken', {path: '/'})
+            res.clearCookie('refreshToken', {path: '/'})
 
             res.status(200).json({message: "You successfully logged out"});
         } catch (err) {

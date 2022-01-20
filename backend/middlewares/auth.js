@@ -17,8 +17,13 @@ module.exports = (req, res, next) => {
 
             try {
                 req.accessToken = accessToken;
-                req.user = await User.findById(user.userId);
-                next();
+                const user = await User.findById(user._id);
+                if (user) {
+                    req.user = user;
+                    next();
+                } else {
+                    return res.status(403).json({message: "User is invalid"});
+                }
             } catch (err) {
                 return res.status(500).json({message: "Something went wrong"});
             }
