@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import RoomIcon from "@mui/icons-material/Room";
 import StarIcon from "@mui/icons-material/Star";
 import {format} from "timeago.js";
 import axios from "axios";
+import AuthContext from "../../AuthContext";
 
 export default function Explore(props) {
-    const myStorage = window.localStorage;
+    const auth = useContext(AuthContext);
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
     const [newPlace, setNewPlace] = useState(null)
@@ -55,7 +56,6 @@ export default function Explore(props) {
         e.preventDefault()
 
         const newPin = {
-            username: props.username,
             title: title,
             description: description,
             rating: rating,
@@ -88,7 +88,7 @@ export default function Explore(props) {
                         <Marker latitude={pin.lat} longitude={pin.lng} offsetLeft={-viewport.zoom * 2} offsetTop={-viewport.zoom * 4}>
                             <RoomIcon style={{
                                 fontSize: viewport.zoom * 4,
-                                color: pin.username === props.username ? "tomato" : "slateblue",
+                                color: (auth.user && pin.username === auth.user?.username) ? "tomato" : "slateblue",
                                 cursor: "pointer"
                             }}
                                       onClick={() => handleMarkerClick(pin._id, pin.lat, pin.lng)}/>

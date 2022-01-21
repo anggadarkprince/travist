@@ -11,14 +11,12 @@ import {NavLink} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import Logo from "../Logo/Logo";
 import {Dropdown} from "../Dropdown/Dropdown";
+import {useContext} from "react";
+import AuthContext from "../../AuthContext";
 
-export function Header({fadeMode, currentUsername, onAuthMenuClicked, handleLogout}) {
+export function Header({fadeMode, setShowLogin, setShowRegister, handleLogout}) {
     const location = useLocation();
-
-    const onAuthClick = (e, menu) => {
-        e.preventDefault()
-        onAuthMenuClicked(menu, e.target.href)
-    }
+    const auth = useContext(AuthContext);
 
     return (
         <header className={`headerWrapper${fadeMode ? ' headerFade' : ''}`}>
@@ -44,10 +42,10 @@ export function Header({fadeMode, currentUsername, onAuthMenuClicked, handleLogo
                     </li>
                     <li className="headerNavItem headerNavSeparator"/>
                     {
-                        currentUsername
+                        auth.user
                             ? <>
                                 <li className="headerNavItem">
-                                    <Dropdown menuRight={true} label={currentUsername} icon={<AccountCircleOutlinedIcon className="headerNavLinkIconRight"/>}>
+                                    <Dropdown menuRight={true} label={auth.user.username} icon={<AccountCircleOutlinedIcon className="headerNavLinkIconRight"/>}>
                                         <div><NavLink className="dropdownItem" to="/my-pins"><EditLocationOutlinedIcon/> My Pins</NavLink></div>
                                         <div><NavLink className="dropdownItem" to="/account"><AccountCircleOutlinedIcon/> Edit Account</NavLink></div>
                                         <div><hr className="dropdownDivider"/></div>
@@ -57,13 +55,21 @@ export function Header({fadeMode, currentUsername, onAuthMenuClicked, handleLogo
                             </>
                             : <>
                                 <li className="headerNavItem">
-                                    <NavLink to="/login" className="headerNavLink" onClick={(e) => onAuthClick(e, 'login')}>
+                                    <NavLink to="/login" className="headerNavLink" onClick={(e) => {
+                                        e.preventDefault()
+                                        setShowLogin(true)
+                                        setShowRegister(false)
+                                    }}>
                                         Sign In <LoginIcon className="headerNavLinkIconRight"/>
                                     </NavLink>
                                 </li>
                                 <li className="headerNavItem headerNavText">or</li>
                                 <li className="headerNavItem">
-                                    <NavLink to="/register" className="headerNavLink headerNavLinkButton" onClick={(e) => onAuthClick(e, 'register')}>
+                                    <NavLink to="/register" className="headerNavLink headerNavLinkButton" onClick={(e) => {
+                                        e.preventDefault()
+                                        setShowLogin(false)
+                                        setShowRegister(true)
+                                    }}>
                                         Register <AccountCircleOutlinedIcon className="headerNavLinkIconRight"/>
                                     </NavLink>
                                 </li>

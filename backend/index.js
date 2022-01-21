@@ -15,7 +15,11 @@ const helmet = require("helmet");
 dotenv.config()
 app.use(helmet());
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: [process.env.APP_URL, process.env.APP_FRONTEND_URL],
+    optionsSuccessStatus: 200,
+    credentials: true
+}))
 app.use(cookieParser())
 
 app.use(morgan('dev', {

@@ -112,7 +112,7 @@ module.exports = {
 
             await UserToken.deleteOne({refreshToken: refreshToken});
 
-            const user = req.user
+            const user = await User.findById(payload._id)
             const newAccessToken = generateAccessToken(user);
             const newRefreshToken = generateRefreshToken(user);
             const accessTokenValidUntil = moment().add(2, 'hours')

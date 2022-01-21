@@ -5,7 +5,7 @@ import axios from "axios";
 import {Modal} from "../Modal/Modal";
 import {Link} from "react-router-dom";
 
-export default function Register({ onAuthMenuClicked, showRegister, setShowRegister }) {
+export default function Register({ showRegister, setShowRegister, setShowLogin }) {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const usernameRef = useRef();
@@ -24,7 +24,7 @@ export default function Register({ onAuthMenuClicked, showRegister, setShowRegis
         setSuccess(false);
 
         try {
-            await axios.post("users/register", newUser);
+            await axios.post("auth/register", newUser);
             setError(false);
             setSuccess(true);
 
@@ -35,11 +35,6 @@ export default function Register({ onAuthMenuClicked, showRegister, setShowRegis
             setError(true);
         }
     };
-
-    const onAuthClick = (e, menu) => {
-        e.preventDefault()
-        onAuthMenuClicked(menu, e.target.href)
-    }
 
     return (
         <Modal show={showRegister} onCloseCallback={() => setShowRegister(false)}>
@@ -69,7 +64,11 @@ export default function Register({ onAuthMenuClicked, showRegister, setShowRegis
                     Register
                 </button>
                 <p className="authFooter">
-                    Already have an account, <Link to="/login" onClick={(e) => onAuthClick(e, 'login')}>login here</Link>
+                    Already have an account, <Link to="/login" onClick={(e) => {
+                    e.preventDefault()
+                    setShowRegister(false)
+                    setShowLogin(true)
+                }}>login here</Link>
                 </p>
             </form>
         </Modal>

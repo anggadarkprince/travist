@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
         jwt.verify(accessToken, process.env.JWT_SECRET, async (err, userPayload) => {
             if (err) {
                 if (err instanceof TokenExpiredError) {
-                    return res.status(401).send({message: "Token is expired"});
+                    return res.status(401).send({status: "expired", message: "Token is expired"});
                 }
                 return res.status(403).json({message: "Token is invalid"});
             }

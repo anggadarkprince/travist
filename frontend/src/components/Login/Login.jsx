@@ -1,43 +1,45 @@
 import axios from "axios";
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import "./Login.css";
 import RoomIcon from "@mui/icons-material/Room";
 import {Modal} from "../Modal/Modal";
 import {Link} from "react-router-dom";
+import AuthContext from "../../AuthContext";
 
-export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCurrentUsername, myStorage}) {
+export default function Login({showLogin, setShowRegister, setShowLogin, setAuthData}) {
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [redirect, setRedirect] = useState(false);
     const usernameRef = useRef();
     const passwordRef = useRef();
+    const auth = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setError(false)
         try {
-            const res = await axios.post("users/login", {
+            const res = await axios.post("auth/login", {
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             });
-            setCurrentUsername(res.data.user.username);
-            myStorage.setItem('user', res.data.user.username)
-
-            onAuthMenuClicked('explore', '/explore')
+            const authData = {
+                user: res.data.user,
+                accessToken: res.data.accessToken,
+                refreshToken: res.data.refreshToken,
+            }
+            setAuthData(authData, () => {
+                setShowRegister(false)
+                setShowLogin(false)
+            })
 
             usernameRef.current.value = ''
             passwordRef.current.value = ''
         } catch (err) {
+            console.log(err)
             setError(true)
             setErrorMessage(err.response.data.message || 'Something went wrong!')
         }
     };
-
-    const onAuthClick = (e, menu) => {
-        e.preventDefault()
-        onAuthMenuClicked(menu, e.target.href)
-    }
 
     return (
         <Modal show={showLogin} onCloseCallback={() => setShowLogin(false)} modalStyle={{maxWidth: '320px'}}>
@@ -62,7 +64,11 @@ export default function Login({onAuthMenuClicked, showLogin, setShowLogin, setCu
                     Login
                 </button>
                 <p className="authFooter">
-                    Don't have an account, <Link to="/register" onClick={(e) => onAuthClick(e, 'register')}>register here</Link>
+                    Don't have an account, <Link to="/register" onClick={(e) => {
+                    e.preventDefault()
+                    setShowLogin(false)
+                    setShowRegister(true)
+                }}>register here</Link>
                 </p>
             </form>
         </Modal>
