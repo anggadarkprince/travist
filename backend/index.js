@@ -10,8 +10,10 @@ const morgan = require('morgan')
 const winston = require('winston')
 const fs = require('fs')
 const path = require('path')
+const helmet = require("helmet");
 
 dotenv.config()
+app.use(helmet());
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
