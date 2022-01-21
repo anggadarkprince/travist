@@ -37,7 +37,7 @@ export default function Login({showLogin, setShowRegister, setShowLogin, setAuth
         } catch (err) {
             console.log(err)
             setError(true)
-            setErrorMessage(err.response.data.message || 'Something went wrong!')
+            setErrorMessage(err.response?.data?.message || 'Something went wrong!')
         }
     };
 

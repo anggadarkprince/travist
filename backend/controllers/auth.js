@@ -141,6 +141,11 @@ module.exports = {
             res.status(200).json({
                 accessToken: userToken.accessToken,
                 refreshToken: userToken.refreshToken,
+                user: {
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email
+                }
             });
         });
     },

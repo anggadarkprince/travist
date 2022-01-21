@@ -4,6 +4,7 @@ import Constants from "../../Constants";
 export default function Terms() {
 
     useEffect(() => {
+        document.title = "Terms and conditions - Travist"
         window.scrollTo({
             top: 0,
             left: 0,
@@ -12,7 +13,7 @@ export default function Terms() {
     }, [])
 
     return (
-        <article className="container">
+        <article>
             <div className="legalTitleWrapper">
                 <h3 className="legalTitle">Terms & Conditions</h3>
                 <p className="legalSubtitle">Last updated 20 February 2022</p>

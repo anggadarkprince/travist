@@ -6,4 +6,11 @@ export const authDefaultValue = {
     user: null,
 };
 
-export default React.createContext(authDefaultValue);
+const authMethodData = {
+    ...authDefaultValue,
+    setShowRegister: () => {},
+    setShowLogin: () => {},
+    handleLogout: () => {},
+}
+
+export default React.createContext(authMethodData);

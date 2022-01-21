@@ -14,7 +14,7 @@ import {Dropdown} from "../Dropdown/Dropdown";
 import {useContext} from "react";
 import AuthContext from "../../AuthContext";
 
-export function Header({fadeMode, setShowLogin, setShowRegister, handleLogout}) {
+export function Header({fadeMode}) {
     const location = useLocation();
     const auth = useContext(AuthContext);
 
@@ -49,7 +49,7 @@ export function Header({fadeMode, setShowLogin, setShowRegister, handleLogout}) 
                                         <div><NavLink className="dropdownItem" to="/my-pins"><EditLocationOutlinedIcon/> My Pins</NavLink></div>
                                         <div><NavLink className="dropdownItem" to="/account"><AccountCircleOutlinedIcon/> Edit Account</NavLink></div>
                                         <div><hr className="dropdownDivider"/></div>
-                                        <div><NavLink to="/logout" className="dropdownItem" onClick={handleLogout}><LogoutIcon/> Sign Out</NavLink></div>
+                                        <div><NavLink to="/logout" className="dropdownItem" onClick={auth.handleLogout}><LogoutIcon/> Sign Out</NavLink></div>
                                     </Dropdown>
                                 </li>
                             </>
@@ -57,8 +57,8 @@ export function Header({fadeMode, setShowLogin, setShowRegister, handleLogout}) 
                                 <li className="headerNavItem">
                                     <NavLink to="/login" className="headerNavLink" onClick={(e) => {
                                         e.preventDefault()
-                                        setShowLogin(true)
-                                        setShowRegister(false)
+                                        auth.setShowLogin(true)
+                                        auth.setShowRegister(false)
                                     }}>
                                         Sign In <LoginIcon className="headerNavLinkIconRight"/>
                                     </NavLink>
@@ -67,8 +67,8 @@ export function Header({fadeMode, setShowLogin, setShowRegister, handleLogout}) 
                                 <li className="headerNavItem">
                                     <NavLink to="/register" className="headerNavLink headerNavLinkButton" onClick={(e) => {
                                         e.preventDefault()
-                                        setShowLogin(false)
-                                        setShowRegister(true)
+                                        auth.setShowLogin(false)
+                                        auth.setShowRegister(true)
                                     }}>
                                         Register <AccountCircleOutlinedIcon className="headerNavLinkIconRight"/>
                                     </NavLink>

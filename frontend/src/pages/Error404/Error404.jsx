@@ -2,15 +2,16 @@ import React, {useEffect} from "react";
 import "./Error404.css";
 import WrongLocationOutlinedIcon from '@mui/icons-material/WrongLocationOutlined';
 import {Link} from "react-router-dom";
+import PageLayout from "../../layouts/PageLayout";
 
-export default function Error404(props) {
+export default function Error404() {
 
     useEffect(() => {
-        props.setHeaderFade(false)
+        document.title = "Page not found - Travist"
     }, [])
 
     return (
-        <div className="pageContainer">
+        <PageLayout>
             <div className="errorPage">
                 <WrongLocationOutlinedIcon className="errorIcon"/>
                 <h1 className="errorCode">404</h1>
@@ -21,6 +22,6 @@ export default function Error404(props) {
                 </p>
                 <Link to="/" className="errorButton">GO TO HOMEPAGE</Link>
             </div>
-        </div>
+        </PageLayout>
     )
 }

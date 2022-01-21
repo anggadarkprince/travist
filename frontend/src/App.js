@@ -2,7 +2,6 @@ import './App.css';
 import * as React from 'react';
 import {useState} from 'react';
 import {Route, Routes, useNavigate} from "react-router-dom";
-import {Header} from "./components/Header/Header";
 import Explore from "./pages/Explore/Explore";
 import About from "./pages/About/About";
 import Nearby from "./pages/Nearby/Nearby";
@@ -18,7 +17,6 @@ function App() {
     const tokenItemKey = 'appToken';
     const appStorage = window.localStorage;
 
-    const [fadeMode, setFadeMode] = useState(true)
     const [showRegister, setShowRegister] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const navigate = useNavigate();
@@ -26,7 +24,7 @@ function App() {
     const handleLogout = (e) => {
         e.preventDefault()
         axios.post("/auth/logout")
-            .then(result => {
+            .then(() => {
                 setAuthData(authDefaultValue)
                 appStorage.removeItem('user');
                 appStorage.removeItem(tokenItemKey);
@@ -35,15 +33,20 @@ function App() {
             .catch(console.log);
     };
 
-    const getAuthToken = () => {
-        const apiToken = appStorage.getItem(tokenItemKey);
-        return apiToken ? JSON.parse(apiToken) : null;
+    const getAuthData = () => {
+        const apiTokenValue = appStorage.getItem(tokenItemKey);
+        const authData = apiTokenValue ? JSON.parse(apiTokenValue) : {};
+        return {
+            ...authDefaultValue,
+            ...authData,
+            setShowRegister: setShowRegister,
+            setShowLogin: setShowLogin,
+            handleLogout: handleLogout,
+        }
     }
-    const apiTokenData = getAuthToken();
-    const [auth, setAuth] = useState(apiTokenData ? {...apiTokenData} : authDefaultValue)
+    const [auth, setAuth] = useState(getAuthData())
 
     const initAuthInterceptor = () => {
-        const apiTokenData = getAuthToken();
         axios.defaults.withCredentials = true;
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
         axios.interceptors.response.use(response => response, error => {
@@ -55,13 +58,16 @@ function App() {
                     console.log('Access token is expired')
 
                     // optional added in body request (already live in http only cookie)
+                    const authData = getAuthData();
                     const originalRequest = error.config;
-                    return axios.post("auth/refresh-token", {refreshToken: apiTokenData.refreshToken})
+                    return axios.post("auth/refresh-token", {refreshToken: authData.refreshToken})
                         .then(response => response.data)
                         .then(data => {
-                            apiTokenData.accessToken = data.accessToken;
-                            apiTokenData.refreshToken = data.refreshToken;
-                            appStorage.setItem(tokenItemKey, JSON.stringify(apiTokenData));
+                            setAuthData({
+                                user: data.user,
+                                accessToken: data.accessToken,
+                                refreshToken: data.refreshToken,
+                            })
                             return axios(originalRequest);
                         });
                 } else {
@@ -76,29 +82,27 @@ function App() {
     }
     initAuthInterceptor()
 
-    const setAuthData = (data, callback = () => {}) => {
+    const setAuthData = (data, callback) => {
         appStorage.setItem(tokenItemKey, JSON.stringify(data))
-        setAuth(data)
-        callback()
+        setAuth(prevState => (
+            {...prevState, ...data}
+        ))
+        if (callback) {
+            callback()
+        }
     }
 
     return (
         <AuthContext.Provider value={auth}>
-            <Header fadeMode={fadeMode}
-                    setShowRegister={setShowRegister}
-                    setShowLogin={setShowLogin}
-                    handleLogout={handleLogout}/>
-            <div className="pageWrapper">
-                <Routes>
-                    <Route path={'/'} element={<Explore setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/explore'} element={<Explore setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/nearby'} element={<Nearby setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/about'} element={<About setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/legals/*'} element={<Legals setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path={'/account'} element={<Account setHeaderFade={setFadeMode.bind(this)}/>}/>
-                    <Route path="*" element={<Error404 setHeaderFade={setFadeMode.bind(this)}/>}/>
-                </Routes>
-            </div>
+            <Routes>
+                <Route path={'/'} element={<Explore/>}/>
+                <Route path={'/explore'} element={<Explore/>}/>
+                <Route path={'/nearby'} element={<Nearby/>}/>
+                <Route path={'/about'} element={<About/>}/>
+                <Route path={'/legals/*'} element={<Legals/>}/>
+                <Route path={'/account'} element={<Account/>}/>
+                <Route path="*" element={<Error404/>}/>
+            </Routes>
             <Register showRegister={showRegister}
                       setShowRegister={setShowRegister}
                       setShowLogin={setShowLogin}/>

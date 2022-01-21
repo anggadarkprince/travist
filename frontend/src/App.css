@@ -207,9 +207,10 @@ textarea {
     background-color: slateblue;
 }
 
-.pageContainer {
+.pageWrapper {
     margin-top: 65px;
     padding: 25px 0;
+    min-height: calc(100vh - 135px);
 }
 
 hr {

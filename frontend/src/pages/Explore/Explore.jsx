@@ -6,8 +6,9 @@ import StarIcon from "@mui/icons-material/Star";
 import {format} from "timeago.js";
 import axios from "axios";
 import AuthContext from "../../AuthContext";
+import MapLayout from "../../layouts/MapLayout";
 
-export default function Explore(props) {
+export default function Explore() {
     const auth = useContext(AuthContext);
     const [pins, setPins] = useState([])
     const [currentPlaceId, setCurrentPlaceId] = useState(null)
@@ -24,7 +25,7 @@ export default function Explore(props) {
     });
 
     useEffect(() => {
-        props.setHeaderFade(true)
+        document.title = "Travis - Traveling advisor"
         const getPins = async () => {
             try {
                 const res = await axios.get("pins")
@@ -73,6 +74,7 @@ export default function Explore(props) {
     }
 
     return (
+        <MapLayout>
         <ReactMapGL
             {...viewport}
             mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -174,5 +176,6 @@ export default function Explore(props) {
                 </Popup>
             }
         </ReactMapGL>
+        </MapLayout>
     )
 }

@@ -1,14 +1,15 @@
 import React, {useEffect} from "react";
+import PageLayout from "../../layouts/PageLayout";
 
 export default function Nearby(props) {
 
     useEffect(() => {
-        props.setHeaderFade(false)
+        document.title = "Nearby location and pins - Travist"
     }, [])
 
     return (
-        <div className="pageContainer">
+        <PageLayout>
             <p>Nearby page</p>
-        </div>
+        </PageLayout>
     )
 }

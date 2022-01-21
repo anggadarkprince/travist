@@ -4,6 +4,7 @@ import Constants from "../../Constants";
 export default function Cookie() {
 
     useEffect(() => {
+        document.title = "Cookies - Travist"
         window.scrollTo({
             top: 0,
             left: 0,
@@ -12,7 +13,7 @@ export default function Cookie() {
     }, [])
 
     return (
-        <article className="container">
+        <article>
             <div className="legalTitleWrapper">
                 <h3 className="legalTitle">Cookie</h3>
                 <p className="legalSubtitle">Last updated 20 February 2022</p>
