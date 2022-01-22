@@ -26,7 +26,6 @@ function App() {
         axios.post("/auth/logout")
             .then(() => {
                 setAuthData(authDefaultValue)
-                appStorage.removeItem('user');
                 appStorage.removeItem(tokenItemKey);
                 navigate('/explore');
             })
@@ -52,7 +51,7 @@ function App() {
         axios.interceptors.response.use(response => response, error => {
             const codeUnauthenticated = (error.response?.status || 500) === 401
             const statusIsExpired = (error.response?.data?.status || '') === 'expired'
-            if (codeUnauthenticated || statusIsExpired) {
+            if (codeUnauthenticated) {
                 // access token is expired, try get new access token by passing refresh token
                 if (statusIsExpired) {
                     console.log('Access token is expired')
@@ -72,8 +71,10 @@ function App() {
                         });
                 } else {
                     console.log('Unauthorized or refresh token expired')
-                    localStorage.removeItem(tokenItemKey)
+                    appStorage.removeItem(tokenItemKey);
                     setShowLogin(true)
+                    setShowRegister(false)
+                    return Promise.reject(error);
                 }
             } else {
                 return Promise.reject(error);
@@ -89,6 +90,8 @@ function App() {
         ))
         if (callback) {
             callback()
+        } else {
+            navigate('/')
         }
     }
 

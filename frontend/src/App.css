@@ -120,6 +120,16 @@ label {
     font-weight: 500;
 }
 
+form fieldset {
+    border: none;
+}
+form fieldset:disabled input,
+form fieldset:disabled select,
+form fieldset:disabled textarea {
+    color: #6e6e6e;
+    background-color: #f1f1f1;
+}
+
 .input-section {
     margin-bottom: 15px;
 }
@@ -129,6 +139,7 @@ input {
     width: 100%;
     border-bottom: 1px solid gray;
     padding: 5px;
+    border-radius: 2px;
 }
 
 .input-section:focus-within input {
@@ -156,6 +167,7 @@ select {
     background-color: white;
     border: 1px solid gray;
     padding: 2px 5px;
+    border-radius: 2px;
 }
 
 textarea {
@@ -163,6 +175,7 @@ textarea {
     width: 100%;
     border-bottom: 1px solid gray;
     padding: 3px 5px;
+    border-radius: 2px;
 }
 
 .submitButton {

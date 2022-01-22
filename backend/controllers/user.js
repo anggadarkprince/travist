@@ -7,6 +7,9 @@ const UserToken = require("../models/UserToken");
 const _ = require('lodash');
 
 module.exports = {
+    getAccount: async (req, res) => {
+        return res.status(200).json(req.user);
+    },
     updateProfile: async (req, res) => {
         const {firstName, lastName, email, username, contactNumber, address} = req.body
 
