@@ -35,6 +35,12 @@ export default function CollapseSection(props) {
                 timer = setInterval(updateCollapse, props.interval * 1000)
             }
         }
+
+        return () => {
+            if (timer) {
+                clearInterval(timer)
+            }
+        }
     }, [isRunning])
 
     const updateCollapse = () => {

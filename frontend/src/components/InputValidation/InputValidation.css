@@ -1,0 +1,9 @@
+.input-validation {
+    margin-top: 5px;
+    color: #f1573c;
+    font-size: 14px;
+}
+
+ul.input-validation {
+    padding-left: 15px;
+}

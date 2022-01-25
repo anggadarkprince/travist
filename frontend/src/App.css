@@ -24,7 +24,7 @@
 
 .pageTitle svg {
     font-size: 20px;
-    margin-left: 5px;
+    margin-right: 10px;
 }
 
 .pageSubtitle {
@@ -67,6 +67,7 @@ label {
     margin-bottom: 3px;
     display: block;
     font-weight: 500;
+    color: #535353;
 }
 
 .formPin label {
@@ -140,6 +141,7 @@ input {
     border-bottom: 1px solid gray;
     padding: 5px;
     border-radius: 2px;
+    font-size: 16px;
 }
 
 .input-section:focus-within input {
@@ -168,6 +170,7 @@ select {
     border: 1px solid gray;
     padding: 2px 5px;
     border-radius: 2px;
+    font-size: 16px;
 }
 
 textarea {
@@ -176,6 +179,7 @@ textarea {
     border-bottom: 1px solid gray;
     padding: 3px 5px;
     border-radius: 2px;
+    font-size: 16px;
 }
 
 .submitButton {
@@ -303,16 +307,26 @@ hr {
     margin-bottom: 50px;
 }
 
+.mrTiny {
+    margin-right: 5px;
+}
+
 .button {
     border-radius: 5px;
     padding: 8px 12px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
     border: none;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10),
     0 2px 2px rgba(0, 0, 0, 0.10),
     0 4px 4px rgba(0, 0, 0, 0.08),
     0 8px 8px rgba(0, 0, 0, 0.06);
+}
+
+.button:disabled {
+    opacity: 0.8;
+    cursor: auto;
 }
 
 .button.buttonViolet {
@@ -333,4 +347,44 @@ hr {
 .button.buttonOrange:hover {
     background-color: #f1573c;
     color: white;
+}
+
+.button .loadingIcon {
+    font-size: 18px;
+}
+
+@-webkit-keyframes rotating {
+    from {
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes rotating {
+    from {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+.rotating {
+    -webkit-animation: rotating 2s linear infinite;
+    -moz-animation: rotating 2s linear infinite;
+    -ms-animation: rotating 2s linear infinite;
+    -o-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
 }

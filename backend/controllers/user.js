@@ -33,18 +33,42 @@ module.exports = {
         }
     },
     changePassword: async (req, res) => {
-        const {password, newPassword, confirmPassword} = req.body
+        const {currentPassword, newPassword, confirmNewPassword} = req.body
 
         try {
             const validationError = {};
 
-            const validPassword = await bcrypt.compare(password, req.user.password);
+            const validPassword = await bcrypt.compare(currentPassword, req.user.password);
             if (!validPassword) {
-                validationError.password = ["Invalid current password"]
+                validationError.currentPassword = ["Invalid current password"]
             }
 
-            if (newPassword !== confirmPassword) {
-                validationError.newPassword = ["New password need to be confirmed"]
+            if (!newPassword) {
+                validationError.newPassword = [
+                    ...(validationError.newPassword || []),
+                    "New password is required"
+                ]
+            }
+
+            if (currentPassword.length < 6) {
+                validationError.newPassword = [
+                    ...(validationError.newPassword || []),
+                    "Minimum password is 6 characters"
+                ]
+            }
+
+            if (currentPassword === newPassword) {
+                validationError.newPassword = [
+                    ...(validationError.newPassword || []),
+                    "New password can't be same with current one"
+                ]
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                validationError.confirmNewPassword = [
+                    ...(validationError.confirmNewPassword || []),
+                    "New password need to be confirmed"
+                ]
             }
 
             if (!_.isEmpty(validationError)) {
